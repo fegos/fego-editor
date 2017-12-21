@@ -1,0 +1,112 @@
+.FegoEditor-root {
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  padding: 15px;
+}
+.FegoEditor-editor {
+  border-top: 1px solid #ddd;
+  cursor: text;
+  font-size: 16px;
+  margin-top: 10px;
+  min-height: 200px;
+}
+.FegoEditor-editor .public-DraftEditorPlaceholder-root,
+.FegoEditor-editor .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+}
+.FegoEditor-editor .public-DraftEditor-content {
+  min-height: 100px;
+}
+.FegoEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+.FegoEditor-editor .FegoEditor-blockquote {
+  border-left: 5px solid #eee;
+  color: #666;
+  font-family: 'Hoefler Text', 'Georgia', serif;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+.FegoEditor-editor .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+  font-size: 16px;
+  padding: 20px;
+}
+.FegoEditor-editor .public-DraftStyleDefault-block {
+  margin: 0;
+}
+.Editor-toolbars {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 14px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+.FegoEditor-toolBarBTn {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+.FegoEditor-activeButton {
+  color: #5890ff;
+}
+.align-right {
+  text-align: right;
+}
+.align-right div {
+  display: inline;
+}
+.align-center {
+  text-align: center;
+}
+.align-center div {
+  display: inline;
+}
+.align-left {
+  text-align: left;
+}
+.align-left div {
+  display: inline;
+}
+.link {
+  color: '#3b5998';
+  text-decoration: 'underline';
+  background: 'red';
+}
+.editor {
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  cursor: text;
+  padding: 16px;
+  border-radius: 2px;
+  margin-bottom: 2em;
+  box-shadow: inset 0px 1px 8px -3px #ABABAB;
+  background: #fefefe;
+}
+.editor .public-DraftEditor-content {
+  min-height: 140px;
+}
+.options {
+  margin-bottom: 20px;
+}
+.toolbar {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 150px;
+  height: 40px;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid #000;
+  background: #fff;
+}
+.toolbarRight {
+  right: 0;
+}
