@@ -1,0 +1,79 @@
+.modal {
+	position: absolute;
+	top: 33px;
+	left: 5px;
+	width: 260px;
+	z-index: 100;
+	padding: 10px;
+	background: #fff;
+	box-shadow: 0 0 1px 1px #d8d8d8;
+}
+.upload {
+	height: 1px;
+	margin-top: -5px;
+	opacity: 0;
+}
+.input {
+	display: inline-block;
+	width: 100%;
+	height: 30px;
+	font-size: 12px;
+	text-align: center;
+}
+.btn {
+	width: 80px;
+	height: 30px;
+	color: #000;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	background: #fff;
+}
+.btn:hover, .btn:focus {
+	color: #40a9ff;
+	background-color: #fff;
+	border-color: #40a9ff;
+}
+.btnPrimary {
+	color: #fff;
+	background: #0090EC;
+}
+.center {
+	text-align: center;
+}
+.uploadBox {
+	margin: 10px 5px;
+}
+.videoStyleDiv {
+	display: inline-block;
+	width: 45%;
+	margin: 15px 5px 0 0;
+}
+.videoStyleInput {
+	width: 40%;
+}
+.uploadArea {
+	display: inline-block;
+	width: 100%;
+	height: 30px;
+	font-size: 12px;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px dashed;
+}
+.upload {
+	position: absolute;
+	clip: rect(0, 0, 0, 0);
+}
+.input {
+	cursor: initial;
+	border: 2px inset;
+}
+.imgStyleDiv {
+	display: inline-block;
+	width: 45%;
+	margin: 15px 5px 0 0;
+}
+.imgStyleInput {
+	width: 50%;
+}

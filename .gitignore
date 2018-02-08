@@ -1,0 +1,6 @@
+# Mac OS X
+.DS_Store
+
+# npm模块安装目录
+node_modules
+package-lock.json
