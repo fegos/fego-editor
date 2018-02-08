@@ -4,7 +4,7 @@ import { EditorState, RichUtils, Modifier } from 'draft-js'
 import { ToolBarBtn, Func, Picker } from 'utils'
 let { toggleInlineStyle } = Func;
 
-export default class Color extends Component {
+export default class BgColor extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
@@ -34,8 +34,8 @@ export default class Color extends Component {
 	}
 	onToggle = inlineStyle => {
 		let { editorState, onChange, config } = this.props;
-		config = config.map(item => `color${item}`)
-		let newEditorState = toggleInlineStyle(editorState, config, `color${inlineStyle}`)
+		config = config.map(item => `bgColor${item}`)
+		let newEditorState = toggleInlineStyle(editorState, config, `bgColor${inlineStyle}`)
 		onChange(newEditorState)
 	}
 	render() {
@@ -44,28 +44,28 @@ export default class Color extends Component {
 		const currentStyle = editorState.getCurrentInlineStyle();
 		let activeItem = -1;
 		config.find((style, idx) => {
-			if (currentStyle.has(`color${style}`)) {
+			if (currentStyle.has(`bgColor${style}`)) {
 				activeItem = idx
 				return true
 			}
 			return false
 		})
 		return (
-			<div className="FegoEditor-toolbars" title='颜色' >
+			<div className="FegoEditor-toolbars" title='背景颜色' >
 				{
 					config.isTile ? config.map((style, idx) =>
 						<ToolBarBtn
 							key={idx}
-							active={currentStyle.has(`color${style}`)}
+							active={currentStyle.has(`bgColor${style}`)}
 							onToggle={this.onToggle}
-							style={`color${style}`}
+							style={`bgColor${style}`}
 						>
 							<svg className="icon" viewBox="0 0 1024 1024" style={{ color: style }} >
 								<path d="M127.64823801 128.11282l766.89124798 0 0 766.891248-766.891248 0 0-766.891248Z" />
 							</svg>
 						</ToolBarBtn>
 					) : 
-					<Picker {...{ expanded, activeItem }} options={config} onToggle={this.onToggle} changeExpand={this.onExpand} />
+					<Picker type='backgroundColor' {...{ expanded, activeItem }} options={config} onToggle={this.onToggle} changeExpand={this.onExpand} />
 				}
 			</div>
 		)

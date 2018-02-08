@@ -1,3 +1,4 @@
+import BgColor from './BgColor'
 import BlockType from './BlockType'
 import Color from './Color'
 import FontFamily from './FontFamily'
@@ -9,5 +10,6 @@ import Link from './Link'
 import List from './List'
 import TextAlign from './TextAlign'
 import Video from './Video'
+import './index.css'
 
-export { BlockType, Color, FontFamily, FontSize, History, Image, Inline, Link, List, TextAlign, Video }
+export { BgColor, BlockType, Color, FontFamily, FontSize, History, Image, Inline, Link, List, TextAlign, Video }

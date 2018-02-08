@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils } from 'draft-js'
-import ToolBarBTn from '../../ToolBarBTn'
+import { ToolBarBtn, Select } from 'utils'
+import { getSelectedBlocksList } from 'draftjs-utils'
 
 const BLOCK_TYPES = [
+	{ label: '正文', style: 'unstyled' },
 	{ label: 'H1', style: 'header-one' },
 	{ label: 'H2', style: 'header-two' },
 	{ label: 'H3', style: 'header-three' },
@@ -18,29 +20,51 @@ export default class BlockType extends Component {
 		onChange: PropTypes.func.isRequired,
 		toolBar: PropTypes.array
 	}
+	constructor(props) {
+		super(props)
+		this.state = {
+			expanded: false
+		}
+	}
+	componentWillMount() {
+		let { modalManage } = this.props;
+		modalManage.addCallback(this.changeExpand)
+	}
+	componentWillUnmount() {
+		let { modalManage } = this.props;
+		modalManage.removeCallback(this.changeExpand)
+	}
+	changeExpand = () => {
+		this.setState({
+			expanded: this.expanded
+		})
+		this.expanded = false
+	}
+	onExpand = () => {
+		this.expanded = !this.state.expanded
+	}
 	onToggle = blockType => {
 		let { editorState, onChange } = this.props;
 		onChange(RichUtils.toggleBlockType(editorState, blockType))
 	}
 	render() {
-		const { editorState, config } = this.props;
+		const { editorState, config, modalManage } = this.props;
+		const { expanded } = this.state;
 		const selection = editorState.getSelection();
-		const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+		const currentBlockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+		const options = BLOCK_TYPES.filter(item => config.includes(item.label));
+		let activeItem = 0;
+		options.find((item, idx) => {
+			if(currentBlockType === item.style) {
+				activeItem = idx
+				return true
+			}
+			return false
+		})
 		return (
-			<span className="Editor-toolbars">
-				{
-					BLOCK_TYPES.filter(item=>config.options.includes(item.label)).map((type) =>
-						<ToolBarBTn
-							key={type.label}
-							active={type.style === blockType}
-							onToggle={this.onToggle}
-							style={type.style}
-						>
-							{type.label}
-						</ToolBarBTn>
-					)
-				}
-			</span>
+			<div className="FegoEditor-toolbars" title='样式' >
+				<Select {...{ expanded, activeItem, options }} onToggle={this.onToggle} changeExpand={this.onExpand} />
+			</div>
 		)
 	}
 }

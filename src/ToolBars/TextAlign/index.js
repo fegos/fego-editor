@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Modifier, EditorState } from 'draft-js'
 import { getSelectedBlocksMetadata } from 'draftjs-utils'
-import ToolBarBTn from '../../ToolBarBTn'
+import { ToolBarBtn } from 'utils'
+import Iconfont from 'iconfont'
 
-const TextAlign_Types = [
-	{ label: 'left', style: 'left' },
-	{ label: 'right', style: 'right' },
-	{ label: 'center', style: 'center' },
-	{ label: 'justify', style: 'justify' },
+const TEXTALIGN_TYPES = [
+	{ label: 'left', style: 'left', icon: 'iconLeftAlign', title: '左对齐' },
+	{ label: 'center', style: 'center', icon: 'iconCenterAlign', title: '居中' },
+	{ label: 'right', style: 'right', icon: 'iconRightAlign', title: '右对齐' },
+	{ label: 'justify', style: 'justify', icon: 'iconJustify', title: '两端对齐' },
 ]
 
 export default class TextAlign extends Component {
@@ -44,20 +45,20 @@ export default class TextAlign extends Component {
 		let { currentTextAlignment } = this.state;
 		let { config } = this.props;
 		return (
-			<span className="Editor-toolbars">
+			<div className="FegoEditor-toolbars">
 				{
-					TextAlign_Types.filter(item => config.options.includes(item.label)).map((type) =>
-						<ToolBarBTn
-							key={type.label}
+					TEXTALIGN_TYPES.filter(item => config.includes(item.label)).map((type) =>
+						<ToolBarBtn
+							key={type.label} title={type.title}
 							active={type.style === currentTextAlignment}
 							onToggle={this.onToggle}
 							style={type.style}
 						>
-							{type.label}
-						</ToolBarBTn>
+							{Iconfont[type.icon]}
+						</ToolBarBtn>
 					)
 				}
-			</span>
+			</div>
 		)
 	}
 }

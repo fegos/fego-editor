@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils, EditorState } from 'draft-js'
-import { changeDepth } from 'draftjs-utils';
-import ToolBarBTn from '../../ToolBarBTn'
+import { changeDepth } from 'draftjs-utils'
+import { ToolBarBtn } from 'utils'
+import Iconfont from 'iconfont'
 
-const LIST_STYLE = [
-	{ label: 'ul', style: 'unordered-list-item' },
-	{ label: 'ol', style: 'ordered-list-item' },
-	{ label: 'indent', style: 'indent' },
-	{ label: 'outdent', style: 'outdent' },
+const LIST_STYLES = [
+	{ label: 'ul', style: 'unordered-list-item', icon: 'iconUl', title: '无序列表' },
+	{ label: 'ol', style: 'ordered-list-item', icon: 'iconOl', title: '有序列表' },
+	{ label: 'indent', style: 'indent', icon: 'iconIndent', title: '增加缩进量' },
+	{ label: 'outdent', style: 'outdent', icon: 'iconOutdent', title: '减少缩进量' },
 ]
 
 export default class List extends Component {
@@ -28,20 +29,23 @@ export default class List extends Component {
 	}
 	render() {
 		let { editorState, config } = this.props;
-		return ( 
-			<span className="Editor-toolbars">
+		const selection = editorState.getSelection(),
+			blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+		return (
+			<div className="FegoEditor-toolbars">
 				{
-					LIST_STYLE.filter(item => config.options.includes(item.label)).map(type =>
-						<ToolBarBTn
-							key={type.label}
+					LIST_STYLES.filter(item => config.includes(item.label)).map(type =>
+						<ToolBarBtn
+							key={type.label} title={type.title}
 							onToggle={this.onToggle}
 							style={type.style}
+							active={blockType === type.style}
 						>
-							{type.label}
-						</ToolBarBTn>
+							{Iconfont[type.icon]}
+						</ToolBarBtn>
 					)
 				}
-			</span>
+			</div>
 		)
 	}
 }

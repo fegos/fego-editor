@@ -2,14 +2,17 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const ROOT_PATH = path.resolve(__dirname, './')
 const SRC_PATH = path.resolve(ROOT_PATH, 'src')
 
 module.exports = {
+	context: ROOT_PATH,
 	resolve: {
 		modules: ['node_modules'],
 		alias: {
-			'src': SRC_PATH,
+			'iconfont': path.resolve(SRC_PATH, 'iconfont'),
+			'utils': path.resolve(SRC_PATH, 'utils')
 		},
 		extensions: ['.js', '.jsx']
 	},
@@ -22,8 +25,11 @@ module.exports = {
 		libraryTarget: 'commonjs2'
 	},
 	externals: {
+		"draft-convert": "draft-convert",
+		'draft-js': 'draft-js',
 		'react': 'react',
-		'draft-js': 'draft-js'
+		'react-dom': 'react-dom',
+		'immutable': 'immutable'
 	},
 	module: {
 		rules: [{
@@ -32,7 +38,7 @@ module.exports = {
 			include: [SRC_PATH]
 		}, {
 			test: /\.css$/,
-			use: [ 'style-loader', 'postcss-loader']
+			use: ['style-loader', 'postcss-loader']
 		}, {
 			test: /\.less$/,
 			exclude: [
@@ -40,35 +46,28 @@ module.exports = {
 			],
 			use: ExtractTextPlugin.extract({
 				fallback: {
-					loader: 'style-loader', 
+					loader: 'style-loader'
+				},
+				use: [{
+					loader: 'css-loader',
 					options: {
 						modules: true,
-						localIdentName: '[local]'
+						localIdentName: '[local]',
+						minimize: true
 					}
-				},
-				use: ['css-loader', 'less-loader']
-			}) 
-		}, {
-			test: /\.(png|jpg|gif)$/,
-			loader: 'url-loader',
-			options: {
-				limit: 8192,
-				name: 'img/[name].[ext]?[hash:base64:8]'
-			}
-		}, {
-			test: /\.(eot|svg|ttf|woff|woff2)$/,
-			loader: 'file-loader',
-			options: {
-				name: 'src/iconfont/[name].[ext]?[hash]'
-			}
+				}, 'postcss-loader', 'less-loader']
+			})
 		}]
 	},
 	plugins: [
 		new ExtractTextPlugin('editor.css'),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
+				unused: true,
+				dead_code: true,
 				warnings: false
 			}
-		})
+		}),
+		new BundleAnalyzerPlugin
 	]
-}// 代码压缩
+}

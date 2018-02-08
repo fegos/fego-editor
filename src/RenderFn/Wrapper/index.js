@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { EditorState } from 'draft-js'
-import classnames from 'classnames'
-import './index.less'
 
 // 居中时的样式
 const centerStyle = {
@@ -15,11 +13,15 @@ export default class Wrapper extends Component {
 		super(props)
 		this.state = {
 			visible: false,
-			childrenStyle: null
+			childrenStyle: null,
+			top: 0
 		}
 	}
-	changeModalVisible = visible => {
-		this.setState({ visible })
+	changeModalVisible = (visible, e) => {
+		this.setState({
+			visible,
+			top: e.target.height + 5
+		})
 	}
 	changeMediaAlignment = e => {
 		const { block, contentState, onChange, getEditorState } = this.props;
@@ -30,34 +32,44 @@ export default class Wrapper extends Component {
 		onChange(EditorState.push(editorState, contentState, 'change-block-data'))
 	}
 	render() {
-		let { visible } = this.state;
+		let { visible, top } = this.state;
 		let { block, contentState, children } = this.props;
-		let childrenStyle = null, toolbarStyle = 'toolbar';
+		let childrenStyle = null, toolbarStyle = 'FegoEditor-wrapper';
 		const entity = contentState.getEntity(block.getEntityAt(0)), entityData = entity.getData();
 		let { alignment, width, height } = entityData;
-		if (['left', 'right'].includes(alignment)) {
-			childrenStyle = { float: alignment }
-		} else if (alignment === 'center') {
-			childrenStyle = centerStyle
+		switch (alignment) {
+			case 'left':
+				childrenStyle = { float: alignment }
+				toolbarStyle = 'FegoEditor-wrapper'
+				break;
+			case 'center':
+				childrenStyle = centerStyle
+				toolbarStyle = 'FegoEditor-wrapper FegoEitor-wrapperCenter'
+				break;
+			case 'right':
+				childrenStyle = { float: alignment }
+				toolbarStyle = 'FegoEditor-wrapper FegoEitor-wrapperRight'
+				break;
+			default:
+				break;
 		}
-		toolbarStyle = classnames('toolbar', {
-			'toolbarRight': childrenStyle && childrenStyle.float === 'right'
-		});
 		return (
-			<span onMouseEnter={this.changeModalVisible.bind(this, true)}
-				onMouseLeave={this.changeModalVisible.bind(this, false)}
-			>
+			<div onClick={this.changeModalVisible.bind(this, true)} style={{ position: 'relative', zIndex: '999' }} >
 				{
 					visible &&
-					<div className={toolbarStyle} >
-						<button value='' onMouseDown={this.changeMediaAlignment}>默认</button>&nbsp;&nbsp;&nbsp;
-						<button value='left' onMouseDown={this.changeMediaAlignment}>左</button>&nbsp;&nbsp;&nbsp;
-						<button value='center' onMouseDown={this.changeMediaAlignment}>中</button>&nbsp;&nbsp;&nbsp;
-						<button value='right' onMouseDown={this.changeMediaAlignment}>右</button>
+					<div className={toolbarStyle} style={{ top: `-${top}px` }} onMouseDown={this.changeMediaAlignment} >
+						<span value='' >默认</span>&nbsp;&nbsp;&nbsp;
+						<span value='left' >左</span>&nbsp;&nbsp;&nbsp;
+						<span value='center' >中</span>&nbsp;&nbsp;&nbsp;
+						<span value='right' >右</span>
 					</div>
 				}
-				{React.cloneElement(children, { style: Object.assign({ width, height }, childrenStyle) })}
-			</span>
+				{
+					React.cloneElement(children, {
+						style: Object.assign({ width, height }, childrenStyle)
+					})
+				}
+			</div>
 		)
 	}
 }

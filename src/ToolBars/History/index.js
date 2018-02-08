@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { EditorState } from 'draft-js'
-import ToolBarBTn from '../../ToolBarBTn'
+import { ToolBarBtn } from 'utils'
+import Iconfont from 'iconfont'
 
-const History_STYLE = [
-	{ label: 'undo', style: 'undo', className: 'icon-undo' },
-	{ label: 'redo', style: 'redo', className: 'icon-redo' }
+const HISTORY_TYPES = [
+	{ label: 'undo', style: 'undo', icon: 'iconUndo', title: '撤销' },
+	{ label: 'redo', style: 'redo', icon: 'iconRedo', title: '重做' }
 ];
 
 export default class History extends Component {
@@ -20,25 +21,19 @@ export default class History extends Component {
 	render() {
 		let { config } = this.props;
 		return (
-			<span className="Editor-toolbars">
+			<div className="FegoEditor-toolbars">
 				{
-					History_STYLE.filter(item => config.options.includes(item.label)).map(type =>
-						<ToolBarBTn
-							key={type.label}
+					HISTORY_TYPES.filter(item => config.includes(item.label)).map(type =>
+						<ToolBarBtn
+							key={type.label} title={type.title}
 							onToggle={this.onToggle}
 							style={type.style}
 						>
-							<span style={{
-								display: 'inline-block',
-								width: '15px',
-								height: '15px',
-								borderRadius: '3px',
-							}} className={type.className} >
-							</span>
-						</ToolBarBTn>
+							{Iconfont[type.icon]}
+						</ToolBarBtn>
 					)
 				}
-			</span>
+			</div>
 		)
 	}
 }

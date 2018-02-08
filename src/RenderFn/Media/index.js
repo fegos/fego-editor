@@ -6,7 +6,7 @@ const ImageBlock = (props) => {
 	const { src, style, config } = props;
 	return (
 		<Wrapper {...config} >
-			<img src={src} style={style} />
+			<img src={src} className='imgFocus' style={style} />
 		</Wrapper>
 	)
 }
@@ -29,7 +29,7 @@ const Media = (config) => (props) => {
 	} else if (type === 'video') {
 		media = <VideoBlock {...entityData} config={{ ...config, contentState, block }} />
 	}
-	return media;
+	return media
 }
 // config 表示额外添加的参数，包含（editorState获取方法，和更新editorState的方法）
 const mediaBlockRenderer = (config) => (block) => {
@@ -37,8 +37,8 @@ const mediaBlockRenderer = (config) => (block) => {
 		return {
 			component: Media(config),
 			editable: false,
-		};
+		}
 	}
-	return null;
+	return null
 }
 export default mediaBlockRenderer

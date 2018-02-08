@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils } from 'draft-js'
-import ToolBarBTn from '../../ToolBarBTn'
+import { ToolBarBtn } from 'utils'
+import Iconfont from 'iconfont'
 
-const Inline_STYLE = [
-	{ label: 'bold', style: 'bold' },
-	{ label: 'italic', style: 'italic' },
-	{ label: 'underline', style: 'underline' },
+const INLINE_TYPES = [
+	{ label: 'bold', style: 'BOLD', icon: 'iconBold', title: '加粗' },
+	{ label: 'italic', style: 'ITALIC', icon: 'iconItalic', title: '斜体' },
+	{ label: 'underline', style: 'UNDERLINE', icon: 'iconUnderline', title: '下划线' },
 ];
 
 export default class FontSize extends Component {
@@ -22,20 +23,20 @@ export default class FontSize extends Component {
 		let { editorState, config } = this.props;
 		let currentStyle = editorState.getCurrentInlineStyle();
 		return (
-			<span className="Editor-toolbars">
+			<div className="FegoEditor-toolbars">
 				{
-					Inline_STYLE.filter(item => config.options.includes(item.label)).map(type =>
-						<ToolBarBTn
-							key={type.label}
+					INLINE_TYPES.filter(item => config.includes(item.label)).map(type =>
+						<ToolBarBtn
+							key={type.label} title={type.title}
 							active={currentStyle.has(type.style)}
 							onToggle={this.onToggle}
 							style={type.style}
 						>
-							{type.label}
-						</ToolBarBTn>
+							{Iconfont[type.icon]}
+						</ToolBarBtn>
 					)
 				}
-			</span>
+			</div>
 		)
 	}
 }

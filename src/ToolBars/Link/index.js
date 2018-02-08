@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Editor, EditorState, RichUtils, Modifier } from 'draft-js'
 import { getSelectionEntity, getSelectionText } from 'draftjs-utils'	// getEntityRange, 
-import ToolBarBTn from '../../ToolBarBTn'
+import { ToolBarBtn } from 'utils'
+import Iconfont from 'iconfont'
 
 const LINK_TYPES = [
-	{ label: 'link', style: 'link' },
-	{ label: 'unlink', style: 'unlink' },
-]
+	{ label: 'link', style: 'link', icon: 'iconLink', title: '添加链接' },
+	{ label: 'unlink', style: 'unlink', icon: 'iconUnlink', title: '取消链接', className: 'FegoEditor-diabledBtn' },
+], defaultState = {
+	linkTitle: '',
+	linkTarget: '',
+	linkVisible: false,
+	btnDisabled: true
+}
 
 export default class Link extends Component {
 	static propTypes = {
@@ -16,26 +22,39 @@ export default class Link extends Component {
 	}
 	constructor(props) {
 		super(props)
-		this.state = {
-			linkTitle: '',
-			linkTarget: '',
-			linkVisible: false,
-			btnDisabled: true
-		}
+		this.state = defaultState
 	}
 	componentWillMount() {
-		let { editorState } = this.props;
+		let { editorState, modalManage } = this.props;
 		if (editorState) {
 			this.setState({
 				currentEntity: getSelectionEntity(editorState)
 			})
 		}
+		modalManage.addCallback(this.changeModalVisible)
 	}
 	componentWillReceiveProps = (nextProps) => {
 		if (this.props.editorState !== nextProps.editorState) {
 			let currentEntity = getSelectionEntity(nextProps.editorState);
 			this.setState({ currentEntity })
 		}
+	}
+	componentWillUnmount() {
+		let { modalManage } = this.props;
+		modalManage.removeCallback(this.changeModalVisible)
+	}
+	changeModalVisible = () => {
+		let obj = {};
+		if (this.linkVisible) {
+			obj = { linkVisible: this.linkVisible }
+		} else {
+			obj = {
+				...defaultState,
+				linkVisible: this.linkVisible
+			}
+		}
+		this.setState(obj)
+		this.linkVisible = false
 	}
 	onToggle = type => {
 		if (type === 'link') {
@@ -44,27 +63,21 @@ export default class Link extends Component {
 			this.removeLink()
 		}
 	}
-	onlinkInputKeyDown = e => {
-		if (e.which === 13) {
-			this.confirmLink(e)
-		}
-	}
 	addLink = () => {
-		let { link, selectionText } = this.getCurrentValue();
+		let currentValue = this.getCurrentValue()
+		let { link, selectionText } = currentValue;
+		this.linkVisible = !this.state.linkVisible
 		this.setState({
-			linkVisible: true,
 			linkTitle: (link && link.title) || selectionText,
 			linkTarget: link && link.target,
 			linkTargetOption: (link && link.targetOption) || '_blank'
-		}, () => {
-			setTimeout(() => this.refs.url.focus(), 0)
-		})
+		}, () => this.refs.url.focus())
 	}
 	removeLink = () => {
 		let { editorState, onChange } = this.props;
 		let { currentEntity } = this.state;
 		let selection = editorState.getSelection()
-		if (currentEntity) {
+		if (currentEntity && !selection.isCollapsed()) {
 			let entityRange = this.getEntityRange(editorState, currentEntity)
 			selection = selection.merge({
 				anchorOffset: entityRange.start,
@@ -105,11 +118,7 @@ export default class Link extends Component {
 			undefined,
 		);
 		// toogleLink 方法
-		// onChange(RichUtils.toggleLink(
-		// 	editorState,
-		// 	editorState.getSelection(),
-		// 	entityKey
-		// ))
+		// onChange(RichUtils.toggleLink(editorState, selection, entityKey))
 		onChange(EditorState.push(newEditorState, contentState, 'insert-characters'))
 		this.setState({
 			linkVisible: false
@@ -150,50 +159,41 @@ export default class Link extends Component {
 		}
 	}
 	render() {
-		let { linkVisible, linkTitle, linkTarget, btnDisabled } = this.state;
-		let urlInput = ''
+		let { linkVisible, linkTitle = '', linkTarget = '', btnDisabled } = this.state;
+		let urlInput = '';
+		LINK_TYPES[1].className = this.getCurrentValue().link ? '' : 'FegoEditor-diabledBtn'
 		if (linkVisible) {
 			urlInput = (
-				<div style={linkStyle.modal} >
+				<div className='modal' onMouseDown={e => e.stopPropagation()} >
 					<label>超链接：</label>
 					<input ref='title' type="text" value={linkTitle} style={{ width: '100%' }} onChange={this.handleChange.bind(this, 'linkTitle')} />
 					<br />
 					<label>超链接地址：</label>
-					<input ref='url' type="text" value={linkTarget} style={{ width: '100%' }} onChange={this.handleChange.bind(this, 'linkTarget')} 
-						onKeyDown={this.onlinkInputKeyDown}  />
+					<input ref='url' type="text" value={linkTarget} style={{ width: '100%' }} onChange={this.handleChange.bind(this, 'linkTarget')}
+						onKeyDown={this.onlinkInputKeyDown} />
 					<br />
-					<div style={{ textAlign: 'center', marginTop: '10px' }}>
-						<button disabled={btnDisabled} onMouseDown={this.confirmLink}>确定</button> &nbsp;&nbsp;&nbsp;&nbsp;
-						<button onMouseDown={() => { this.setState({ linkVisible: false }) }} >取消</button>
+					<div className='center' style={{ marginTop: '10px' }} >
+						<button className='btn btnPrimary' disabled={btnDisabled} onMouseDown={this.confirmLink}>确定</button> &nbsp;&nbsp;&nbsp;&nbsp;
+						<button className='btn' onMouseDown={() => { this.setState({ linkVisible: false }) }} >取消</button>
 					</div>
 				</div>
 			)
 		}
 		return (
-			<span className="Editor-toolbars">
+			<div className="FegoEditor-toolbars">
 				{
-					LINK_TYPES.map(type =>
-						<ToolBarBTn
-							key={type.label}
+					LINK_TYPES.map(item => {
+						let { title, style, className, label } = item;
+						return <ToolBarBtn
+							key={label} {...{ title, style, className }}
 							onToggle={this.onToggle}
-							style={type.style}
 						>
-							{type.label}
-						</ToolBarBTn>
-					)
+							{Iconfont[item.icon]}
+						</ToolBarBtn>
+					})
 				}
 				{urlInput}
-			</span>
+			</div>
 		)
-	}
-}
-
-const linkStyle = {
-	modal: {
-		position: 'absolute',
-		zIndex: 2,
-		padding: '10px',
-		border: '1px solid #00000030',
-		background: '#fff'
 	}
 }

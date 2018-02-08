@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { AtomicBlockUtils, Entity } from 'draft-js'
-import ToolBarBTn from '../../ToolBarBTn'
+import { ToolBarBtn } from 'utils'
+import Iconfont from 'iconfont'
 
-const Video_TYPES = [
-	{ label: 'video', style: 'video' }
-];
+const VIDEO_TYPES = [
+	{ label: 'video', style: 'video', icon: 'iconVideo', title: '插入视频' }
+], defaultState = {
+	videoVisible: false,
+	urlValue: '',
+	btnDisabled: true,
+	width: 'auto',
+	height: 'auto',
+	controls: false,
+	autoPlay: true
+}
 
 export default class Video extends Component {
 	static propTypes = {
@@ -14,45 +23,36 @@ export default class Video extends Component {
 	}
 	constructor(props) {
 		super(props)
-		this.state = {
-			videoVisible: false,
-			urlValue: '',
-			btnDisabled: true,
-			width: 'auto',
-			height: 'auto',
-			controls: false,
-			autoPlay: true
-		}
+		this.state = defaultState
 	}
-	componentDidMount() { }
+	componentWillMount() {
+		let { modalManage } = this.props;
+		modalManage.addCallback(this.changeVideoVisible)
+	}
+	componentWillUnmount() {
+		let { modalManage } = this.props;
+		modalManage.removeCallback(this.changeVideoVisible)
+	}
+	changeVideoVisible = () => {
+		this.setState({
+			...defaultState,
+			videoVisible: this.videoVisible
+		})
+		this.videoVisible = false
+	}
 	confirmMedia = () => {
 		const { editorState, onChange } = this.props;
 		const { urlValue, urlType, width, height, controls, autoPlay } = this.state;
 		const entityKey = Entity.create(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay });
 		onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '))
-		this.setState({
-			videoVisible: false,
-			urlValue: '',
-			width: 'auto',
-			height: 'auto',
-			btnDisabled: true
-		})
-	}
-	onURLInputKeyDown = e => {
-		if (e.which === 13) {
-			e.preventDefault()
-			this.handleVideoAdd()
-		}
+		this.changeVideoVisible()
 	}
 	handleVideoAdd = () => {
 		this.confirmMedia()
 	}
-	handleCancel = () => {
-		this.setState({ videoVisible: false })
-	}
 	handleChange = (type, e) => {
 		let { value, checked } = e.target
-		if(type === 'videoUrl') {
+		if (type === 'videoUrl') {
 			this.setState({
 				urlValue: value,
 				btnDisabled: !Boolean(value)
@@ -60,110 +60,59 @@ export default class Video extends Component {
 		}
 		this.setState({ [type]: e.target.getAttribute('type') !== 'checkbox' ? value : checked })
 	}
-	promptForMedia = type => {
-		this.setState({
-			videoVisible: true,
-			urlType: type,
-		})
-	}
 	onToggle = () => {
-		this.promptForMedia('video')
-	}
-	handleModalClick = e => {
-		e.stopPropagation()
+		this.videoVisible = !this.state.videoVisible
+		this.setState({
+			urlType: 'video',
+		})
 	}
 	render() {
 		let { videoVisible, urlValue, btnDisabled, width, height, controls, autoPlay } = this.state;
 		let videoModal = '';
 		if (videoVisible) {
 			videoModal = (
-				<div style={styles.modal} onClick={this.handleModalClick}>
-					<div>
-						<div style={styles.uploadBox}>
-							<input type='text' value={urlValue} onChange={this.handleChange.bind(this, 'videoUrl')} placeholder='请输入视频url' style={styles.input} />
-							<div style={styles.videoStyleDiv}>
-								<label>宽度：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<input type="text" value={width} onChange={this.handleChange.bind(this, 'width')} style={styles.videoStyleInput} />
-							</div>
-							<div style={styles.videoStyleDiv}>
-								<label>高度：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<input type="text" value={height} onChange={this.handleChange.bind(this, 'height')} style={styles.videoStyleInput} />
-							</div>
-							<div style={styles.videoStyleDiv}>
-								<label>显示控件：</label>
-								<input type="checkbox" checked={controls} onChange={this.handleChange.bind(this, 'controls')} style={styles.videoStyleInput} />
-							</div>
-							<div style={styles.videoStyleDiv}>
-								<label>自动播放：</label>
-								<input type="checkbox" checked={autoPlay} onChange={this.handleChange.bind(this, 'autoPlay')} style={styles.videoStyleInput} />
-							</div>
+				<div className='modal' onMouseDown={e => e.stopPropagation()} >
+					<div className='uploadBox' >
+						<input type='text' value={urlValue} onChange={this.handleChange.bind(this, 'videoUrl')} placeholder='请输入视频url' className='uploadArea input' />
+						<div className='videoStyleDiv' >
+							<label>宽度：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+							<input type="text" value={width} onChange={this.handleChange.bind(this, 'width')} className='videoStyleInput' />
 						</div>
-						<div style={styles.center} >
-							<button style={styles.btn} disabled={btnDisabled} onMouseDown={this.handleVideoAdd} onKeyDown={this.onURLInputKeyDown} >确定</button> &nbsp;&nbsp;&nbsp;&nbsp;
-							<button style={styles.btn} onMouseDown={this.handleCancel} >取消</button>
+						<div className='videoStyleDiv' >
+							<label>高度：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+							<input type="text" value={height} onChange={this.handleChange.bind(this, 'height')} className='videoStyleInput' />
 						</div>
+						<div className='videoStyleDiv' >
+							<label>显示控件：</label>
+							<input type="checkbox" checked={controls} onChange={this.handleChange.bind(this, 'controls')} className='videoStyleInput' />
+						</div>
+						<div className='videoStyleDiv' >
+							<label>自动播放：</label>
+							<input type="checkbox" checked={autoPlay} onChange={this.handleChange.bind(this, 'autoPlay')} className='videoStyleInput' />
+						</div>
+					</div>
+					<div className='center' >
+						<button className='btn btnPrimary' disabled={btnDisabled} onMouseDown={this.handleVideoAdd} >确定</button> &nbsp;&nbsp;&nbsp;&nbsp;
+						<button className='btn' onMouseDown={this.changeVideoVisible} >取消</button>
 					</div>
 				</div>
 			)
 		}
 		return (
-			<span className="Editor-toolbars">
+			<div className="FegoEditor-toolbars">
 				{
-					Video_TYPES.map(type =>
-						<ToolBarBTn
-							key={type.label}
+					VIDEO_TYPES.map(type =>
+						<ToolBarBtn
+							key={type.label} title={type.title}
 							onToggle={this.onToggle}
 							style={type.style}
 						>
-							{type.label}
-						</ToolBarBTn>
+							{Iconfont[type.icon]}
+						</ToolBarBtn>
 					)
 				}
 				{videoModal}
-			</span>
+			</div>
 		)
 	}
 }
-const styles = {
-	modal: {
-		display: 'flex',
-		justifyContent: 'center',
-		flexDirection: 'column',
-		position: 'absolute',
-		width: '260px',
-		zIndex: 2,
-		padding: '10px',
-		border: '1px solid #00000030',
-		background: '#fff'
-	},
-	upload: {
-		height: '1px',
-		marginTop: '-5px',
-		opacity: 0
-	},
-	input: {
-		width: '100%'
-	},
-	btn: {
-		width: '80px',
-		height: '30px',
-		color: '#fff',
-		border: '1px solid #0090EC',
-		borderRadius: '3px',
-		background: '#0090EC'
-	},
-	center: {
-		textAlign: 'center'
-	},
-	uploadBox: {
-		margin: '15px 5px 10px'
-	},
-	videoStyleDiv: {
-		display: 'inline-block',
-		width: '45%',
-		margin: '15px 5px 0 0'
-	},
-	videoStyleInput: {
-		width: '40%'
-	}
-};

@@ -4,14 +4,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Editor, EditorState, RichUtils, DefaultDraftBlockRenderMap, AtomicBlockUtils, convertToRaw, convertFromRaw, Entity, CompositeDecorator } from 'draft-js'
-import { changeDepth, handleNewLine, getSelectionEntity, getCustomStyleMap, extractInlineStyle, getSelectedBlocksType, toggleCustomInlineStyle } from 'draftjs-utils'
-import Immutable from 'immutable';
-import ToolBarBTn from './ToolBarBTn'
+import { handleNewLine } from 'draftjs-utils'
 import * as ToolBars from './ToolBars'
 import { LinkDecorator } from './Decorators'
 import mediaBlockRenderer from './RenderFn'
-import { defaultToolBars, defaultStyleMap, defaultBlockRenderMap } from './default'
-import './index.less'
+import { defaultToolBars, defaultBlockRenderMap } from './default'
+import { ModalManage, setCustomStyleMap } from 'utils'
+import './index.css'
 
 const decorator = new CompositeDecorator([LinkDecorator]);
 
@@ -19,13 +18,14 @@ export default class MyEditor extends Component {
 	static propTypes = {
 		editorState: PropTypes.object,
 		onChange: PropTypes.func,
-		toolBars: PropTypes.array
+		toolBars: PropTypes.object
 	}
 	constructor(props) {
 		super(props)
 		this.state = {
 			editorState: null,
 		};
+		this.modalManage = new ModalManage()
 		this.blockRendererFn = mediaBlockRenderer({
 			getEditorState: this.getEditorState,
 			onChange: this.onChange
@@ -35,6 +35,8 @@ export default class MyEditor extends Component {
 		this.initialEditorState(decorator)
 	}
 	componentDidMount() {
+		this.modalManage.init(this.editor)
+		// this.modalManage.init('fegoEditor')
 	}
 	componentWillReceiveProps = nextProps => {
 		let { editorState } = nextProps;
@@ -71,18 +73,29 @@ export default class MyEditor extends Component {
 		}
 	}
 	aftChange = editorState => {
-		let { onChange } = this.props;
+		let { onChange, getHtml } = this.props;
 		typeof onChange === 'function' && onChange(editorState)
+	}
+	// 处理回车键
+	handleReturn = (event) => {
+		const newEditorState = handleNewLine(this.state.editorState, event);
+		if (newEditorState) {
+			this.onChange(newEditorState)
+			return true
+		}
+		return false
 	}
 	// 按键回调
 	handleKeyCommand = command => {
-		const { editorState } = this.state;
-		let newState = RichUtils.handleKeyCommand(editorState, command);
-		if (newState) {
-			this.onChange(newState);
-			return true;
+		let { editorState } = this.state;
+		const selection = editorState.getSelection();
+		const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+		const newEditorState = RichUtils.handleKeyCommand(editorState)
+		if (newEditorState) {
+			this.onChange(newEditorState)
+			return true
 		}
-		return false;
+		return false
 	}
 	onTab = e => {
 		const maxDepth = 4;
@@ -90,10 +103,8 @@ export default class MyEditor extends Component {
 	}
 	render() {
 		const { editorState } = this.state;
-		let { toolBars } = this.props;
-		if (!(toolBars && Array.isArray(toolBars))) {
-			toolBars = defaultToolBars
-		}
+		let { toolBars = {} } = this.props;
+		toolBars = Object.assign({}, defaultToolBars, toolBars) 
 		let className = 'FegoEditor-editor';
 		let contentState = editorState.getCurrentContent();
 		if (!contentState.hasText()) {
@@ -101,39 +112,42 @@ export default class MyEditor extends Component {
 				className += ' ' + 'FegoEditor-hidePlaceholder';
 			}
 		}
+		const customStyleMap = setCustomStyleMap({
+			color: toolBars.Color, fontSize: toolBars.FontSize, fontFamily: toolBars.FontFamily,
+			bgColor: toolBars.BgColor
+		})
 		return (
-			<div style={style.root}>
-				<div ref='editorContainer' className="FegoEditor-root">
-					<div className=''>
-						{
-							toolBars.options.map((item, idx) => {
-								let Control = ToolBars[item], config = toolBars[item]
-								return <Control key={idx} editorState={editorState} onChange={this.onChange} config={config} />
-							})
-						}
-					</div>
-					<div className={className} onClick={this.focus}>
-						<Editor
-							ref={ele => this.editor = ele}
-							editorState={editorState}
-							placeholder="请输入"
-							onChange={this.onChange}
-							blockStyleFn={getBlockStyle}
-							blockRendererFn={this.blockRendererFn}
-							blockRenderMap={DefaultDraftBlockRenderMap.merge(defaultBlockRenderMap)}
-							customStyleMap={defaultStyleMap}
-							handleKeyCommand={this.handleKeyCommand}
-							handlePastedText={(value) => (console.log('paste', value))}
-							handlePastedFiles={this.pasteImage}
-							handleDroppedFiles={this.pasteImage}
-							onTab={this.onTab}
-							spellCheck={true}
-							onPaste={(value) => (console.log('paste', value))}
-						/>
-					</div>
+			<div className="FegoEditor-root" onMouseDown={this.modalManage.changeModals} id='fegoEditor' ref={editor => this.editor = editor} >
+				<div className='FegoEditor-toolbar' >
+					{
+						toolBars.options.map((item, idx) => {
+							let Control = ToolBars[item], config = toolBars[item];
+							return <Control key={idx} editorState={editorState} onChange={this.onChange} config={config} modalManage={this.modalManage} />
+						})
+					}
+				</div>
+				<div className={className} onClick={this.focus}>
+					<Editor
+						ref={ele => this.editor = ele}
+						editorState={editorState}
+						placeholder="请输入"
+						onChange={this.onChange}
+						blockStyleFn={getBlockStyle}
+						blockRendererFn={this.blockRendererFn}
+						blockRenderMap={DefaultDraftBlockRenderMap.merge(defaultBlockRenderMap)}
+						customStyleMap={customStyleMap}
+						handleReturn={this.handleReturn}
+						handleKeyCommand={this.handleKeyCommand}
+						handlePastedText={(value) => (console.log('paste', value))}
+						handlePastedFiles={this.pasteImage}
+						handleDroppedFiles={this.pasteImage}
+						onTab={this.onTab}
+						spellCheck={true}
+						onPaste={(value) => (console.log('paste', value))}
+					/>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 function getBlockStyle(block) {
@@ -147,10 +161,5 @@ function getBlockStyle(block) {
 		default: return null;
 	}
 }
-const style = {
-	root: {
-		fontFamily: '\'Georgia\', serif',
-		padding: '20px',
-		width: '700px',
-	}
-};
+
+export { draftToHtml, htmlToDraft } from 'utils'

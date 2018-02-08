@@ -1,0 +1,240 @@
+.FegoEditor-root {
+	background: #fff;
+	border: 1px solid #ddd;
+	font-size: 15px;
+	padding: 15px;
+}
+.FegoEditor-editor {
+	border-top: 1px solid #ddd;
+	cursor: text;
+	font-size: 16px;
+	margin-top: 10px;
+	min-height: 200px;
+}
+.FegoEditor-editor .public-DraftEditorPlaceholder-root,
+.FegoEditor-editor .public-DraftEditor-content {
+	margin: 0 -15px -15px;
+	padding: 15px;
+}
+.FegoEditor-editor .public-DraftEditor-content {
+	min-height: 100px;
+}
+.FegoEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+	display: none;
+}
+.FegoEditor-editor .FegoEditor-blockquote {
+	border-left: 5px solid #eee;
+	color: #666;
+	font-family: 'Hoefler Text', 'Georgia', serif;
+	font-style: italic;
+	margin: 16px 0;
+	padding: 10px 20px;
+}
+.FegoEditor-editor .public-DraftStyleDefault-pre {
+	background-color: rgba(0, 0, 0, 0.05);
+	font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+	font-size: 16px;
+	padding: 20px;
+}
+.FegoEditor-editor .public-DraftStyleDefault-block,
+.FegoEditor-editor .public-DraftStyleDefault-ol,
+.FegoEditor-editor .public-DraftStyleDefault-ul {
+	margin: 0;
+}
+.FegoEditor-toolbar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.FegoEditor-toolbars {
+	display: flex;
+	position: relative;
+	padding: 5px 0;
+	font-family: 'Helvetica', sans-serif;
+	font-size: 15px;
+	user-select: none;
+}
+.align-right {
+	text-align: right;
+}
+.align-right div {
+	display: inline;
+}
+.align-center {
+	text-align: center;
+}
+.align-center div {
+	display: inline;
+}
+.align-left {
+	text-align: left;
+}
+.align-left div {
+	display: inline;
+}
+.link {
+	color: '#3b5998';
+	text-decoration: 'underline';
+	background: 'red';
+}
+.editor {
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+	cursor: text;
+	padding: 16px;
+	border-radius: 2px;
+	margin-bottom: 2em;
+	box-shadow: inset 0px 1px 8px -3px #ABABAB;
+	background: #fefefe;
+}
+.editor :global(.public-DraftEditor-content) {
+	min-height: 140px;
+}
+.options {
+	margin-bottom: 20px;
+}
+.icon {
+	display: inline-block;
+	width: 23px;
+	height: 23px;
+	fill: currentColor;
+	overflow: hidden;
+	font-size: 20px;
+	font-style: normal;
+	vertical-align: middle;
+	text-align: center;
+	text-transform: none;
+	text-rendering: auto;
+	line-height: 1;
+}
+
+.FegoEditor-toolBarBtn {
+	display: inline-block;
+	position: relative;
+	margin: 1px;
+	margin-right: 10px;
+	color: #999;
+	cursor: pointer;
+	box-sizing: border-box;
+	line-height: 1;
+}
+.FegoEditor-toolBarBtn:hover {
+	color: #5890ff;
+	box-shadow: 0 0 1px #7f90b1;
+	border-radius: 1px;
+}
+.FegoEditor-activeBtn {
+	/* .FegoEditor-toolBarBtn(); */
+	color: #5890ff;
+	box-shadow: 0 0 1px #7f90b1;
+	border-radius: 1px;
+}
+.FegoEditor-diabledBtn {
+	opacity: 0.3;
+	cursor: default;
+}
+.FegoEditor-select, .FegoEditor-picker{
+	display: inline-block;
+	margin: 1px;
+	margin-right: 10px;
+	cursor: pointer;
+	color: #999;
+	border: 1px solid #d9d9d9;
+	border-radius: 3px;
+}
+.FegoEditor-select:hover, .FegoEditor-picker:hover {
+	color: #5890ff;
+	border-color: #5890ff;
+}
+.FegoEditor-selectContent {
+	position: absolute;
+	top: 33px;
+	min-width: 75px;
+	z-index: 100;
+	background: #fff;
+	box-shadow: 0 0 1px 1px #d8d8d8;
+}
+.FegoEditor-selectLabel {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	min-width: 75px;
+	padding: 0 10px;
+}
+.FegoEditor-selectItem {
+	padding: 0 20px;
+	line-height: 20px;
+	color: rgba(0, 0, 0, 0.65);
+	text-align: center;
+}
+.FegoEditor-selectItem:hover {
+	background: #adc6ff;
+}
+.FegoEditor-activeSelectItem {
+	background: #d6e4ff;
+}
+.FegoEditor-pickerContent {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.FegoEditor-pickerContainer {
+	position: absolute;
+	top: 33px;
+	z-index: 100;
+	width: 140px;
+	padding: 10px;
+	background: #e9e9e9;
+	box-shadow: 0 0 1px 1px #d8d8d8;
+}
+.FegoEditor-pickerLabel {
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+}
+.FegoEditor-pickerItem {
+	margin: 3px;
+}
+.FegoEditor-pickerItem:hover {
+	box-shadow: 0 0 0 1px #9c9c9c;
+}
+.FegoEditor-activePickerItem {
+	box-shadow: 0 0 1px 1px #BFBDBD;
+}
+.imgFocus:hover {
+	border-radius: 1px;
+	box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+.FegoEditor-wrapper {
+	position: absolute;
+	z-index: 1000;
+	width: 150px;
+	padding: 3px;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 2px;
+	background: #ebf6fe;
+	color: #999;
+}
+.FegoEditor-wrapper::after {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	content: " ";
+	height: 0;
+	width: 0;
+	margin-left: -4px;
+	border: solid transparent;
+	pointer-events: none;
+	border-color: rgba(255, 255, 255, 0);
+	border-top-color: #ebf6fe;
+	border-width: 5px;
+}
+.FegoEitor-wrapperCenter {
+	left: 50%;
+	transform: translateX(-50%);
+}
+.FegoEitor-wrapperRight {
+	right: 0;
+}
