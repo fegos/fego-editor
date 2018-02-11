@@ -11,7 +11,9 @@ const BlockTypeMap = {
 	'header-six': 'h6',
 	'blockquote': 'blockquote',
 	'code-block': 'pre',
-	'unstyled': 'p'
+	'ordered-list-item': 'ol',
+	'unordered-list-item': 'li',
+	'unstyled': 'p',
 }
 const InlineTypeMap = {
 	BOLD: 'strong',
@@ -62,7 +64,6 @@ const atomicBlock = (block, contentState) => {
 		default:
 			break;
 	}
-	console.log(entity)
 	switch (entity.type) {
 		case 'video': {
 			atomicHtml = <video {...{ src, width, height, style }} ></video>
@@ -86,7 +87,20 @@ const atomicBlock = (block, contentState) => {
 // 块级行内样式处理
 const getBlockStyle = (styles) => {
 	let style = '';
-	Array.isArray(styles) && styles.map(item => style += `${item.key}: ${item.value};`)
+	if (Array.isArray(styles)) {
+		style = ' style="'
+		styles.map(item => style += `${item.key}: ${item.value};`)
+		style += '"';
+	} else if (Object.keys(styles).length) {
+		style = ' style="'
+		for (let item of Object.keys(styles)) {
+			if(styles[item] !== undefined) {
+				style += `${item}: ${styles[item]};`
+			}
+		}
+		style += '"';
+	}
+	if(style === ' style=""') return ''
 	return style;
 }
 // 块级内容转html
@@ -95,7 +109,14 @@ const blockToHTML = (contentState) => (block) => {
 		return atomicBlock(block, contentState)
 	} else {
 		const blockType = BlockTypeMap[block.type];
-		if (blockType) {
+		if (['ul', 'ol'].includes(blockType)) {
+			let element = React.createElement('li', {
+				style: block.data
+			}), nest = React.createElement(blockType);
+			return {
+				element, nest
+			}
+		} else {
 			const blockStyle = getBlockStyle(block.data);
 			return {
 				start: `<${blockType}${blockStyle}>`,
@@ -122,130 +143,3 @@ const draftToHtmlConfig = contentState => {
 export default function draftToHtml(contentState) {
 	return convertToHTML(draftToHtmlConfig(contentState))(contentState)
 }
-
-// function draftToHtml(editorContent) {
-// 	let html = [];
-// 	if (editorContent) {
-// 		const { blocks, entityMap } = editorContent;
-// 		blocks.map(block => {
-// 			if (['unordered-list-item', 'ordered-list-item'].includes(block.type)) {
-
-// 			} else {
-// 				html.push(getBlockHtml(block, entityMap))
-// 			}
-// 		})
-// 	}
-// 	return html.join('')
-// }
-// 处理块级
-// const getBlockHtml = (block, entityMap) => {
-// 	let blockHtml = []
-// 	if (block.type === 'atomic' || (block.entityRanges.length > 0 && block.inlineStyleRanges.length === 0)) {
-// 		blockHtml.push(getAtomicHtml(entityMap[block.entityRanges[0].key], block.text))
-// 	} else {
-// 		let tag = BlockTypeMap[block.type];
-// 		if (tag) {
-// 			const blockStyle = getBlockStyle(block.data);
-// 			const innerText = getBlockInnerHtml(block);
-// 			blockHtml.push(`<${tag}`)
-// 			blockStyle && blockHtml.push(` style="${blockStyle}" `);
-// 			blockHtml.push(`>${innerText}</${tag}>`)
-// 		}
-// 	}
-// 	return blockHtml.join('')
-// }
-// const getBlockStyle = (styles) => {
-// 	let style = '';
-// 	Array.isArray(styles) && styles.map(item => {
-// 		style += `${item.key}: ${item.value};`
-// 	})
-// 	return style;
-// }
-// const getBlockInnerHtml = (block) => {
-// 	let ranges = block.entityRanges.map(entityRange => {
-// 		let { offset, length } = entityRange;
-// 		return { offset, length, type: 'Entity' }
-// 	});
-// 	this.hanleInlineStyle(block)
-// 	let sections = [], lastOffset = 0, blockInnerHtml = [];
-// 	ranges.map(item => {
-// 		if (item.offset > lastOffset) {
-// 			sections.push({
-// 				start: lastOffset,
-// 				end: item.offset
-// 			})
-// 		}
-// 		sections.push({
-// 			start: item.offset,
-// 			end: item.offset + item.length,
-// 			type: item.type
-// 		})
-// 		lastOffset = item.offset + item.length
-// 	})
-// 	if (lastOffset < block.text.length) {
-// 		sections.push({
-// 			start: lastOffset,
-// 			end: block.text.length
-// 		})
-// 	}
-// 	sections.map(item => {
-// 		let inlineStyle = {}, html = '';
-// 		if (item.type === 'Entity') {
-
-// 		} else {
-// 			let styleSections = [];
-// 			let { start, end } = item;
-// 			for (let i = start; i < end; i++) {
-// 				if ('') {
-
-// 				} else {
-// 					styleSections.push({
-// 						text: [block.text[i]],
-// 						start: i,
-// 						end: i + 1,
-// 						// style: styleRange.style
-// 					})
-// 				}
-// 			}
-// 		}
-// 	})
-// 	return blockInnerHtml.join('')
-// }
-// 处理实体HTML
-// const getAtomicHtml = (entity, text) => {
-// 	let atomicHtml = '';
-// 	let { alignment, width, height, src } = entity.data, style = '';
-// 	switch (alignment) {
-// 		case "left":
-// 			style = ' float: left;'
-// 			break;
-// 		case 'right':
-// 			style = ' float: right;'
-// 			break;
-// 		case 'center':
-// 			style = ' display: block; margin: 0px auto;'
-// 			break;
-// 		default:
-// 			break;
-// 	}
-// 	switch (entity.type) {
-// 		case 'video':
-// 			{
-// 				let { autoPlay, controls } = entity.data;
-// 				atomicHtml = `<video src="${src}" style="width: ${width}; height: ${height};${style}" ></video>`
-// 				if (autoPlay) atomicHtml = `<video src="${src}" autoPlay style="width: ${width}; height: ${height};${style}" ></video>`
-// 				if (controls) atomicHtml = `<video src="${src}" controls style="width: ${width}; height: ${height};${style}" ></video>`
-// 				if (autoPlay && controls) atomicHtml = `<video src="${src}" autoPlay controls style="width: ${width}; height: ${height};${style}" ></video>`
-// 				break;
-// 			}
-// 		case 'image':
-// 			atomicHtml = `<img src="${src}" style="width: ${width}; height: ${height};${style}" />`
-// 			break;
-// 		case 'LINK':
-// 			atomicHtml = `<a href="${entity.data.url}" target="${entity.data.target}" >${text}</a>`
-// 			break;
-// 		default:
-// 			break;
-// 	}
-// 	return atomicHtml
-// }
