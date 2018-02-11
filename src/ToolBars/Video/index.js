@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { AtomicBlockUtils, Entity } from 'draft-js'
+import { AtomicBlockUtils } from 'draft-js'
 import { ToolBarBtn } from 'utils'
 import Iconfont from 'iconfont'
 
@@ -43,7 +43,8 @@ export default class Video extends Component {
 	confirmMedia = () => {
 		const { editorState, onChange } = this.props;
 		const { urlValue, urlType, width, height, controls, autoPlay } = this.state;
-		const entityKey = Entity.create(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay });
+		const contentState = editorState.getCurrentContent();
+		const entityKey = contentState.createEntity(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay });
 		onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '))
 		this.changeVideoVisible()
 	}

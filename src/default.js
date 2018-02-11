@@ -1,5 +1,3 @@
-import Immutable from 'immutable'
-
 const defaultToolBars = {
 	options: ['BlockType', 'Color', 'FontFamily', 'FontSize', 'Image', 'Inline', 'Link', 'List', 'TextAlign', 'Video', 'History'],
 	BgColor: [],
@@ -24,20 +22,6 @@ const defaultToolBars = {
 	Video: {},
 	Remove: {}
 };
-const defaultBlockRenderMap = Immutable.Map({
-	'header-two': {
-		element: 'h2',
-	},
-	'left': {
-		element: 'div',
-	},
-	'right': {
-		element: 'div',
-	},
-	'center': {
-		element: 'div',
-	},
-});
 
 export {
 	defaultToolBars,

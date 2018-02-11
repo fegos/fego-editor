@@ -88,9 +88,7 @@ export default class MyEditor extends Component {
 	// 按键回调
 	handleKeyCommand = command => {
 		let { editorState } = this.state;
-		const selection = editorState.getSelection();
-		const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
-		const newEditorState = RichUtils.handleKeyCommand(editorState)
+		const newEditorState = RichUtils.handleKeyCommand(editorState, command)
 		if (newEditorState) {
 			this.onChange(newEditorState)
 			return true

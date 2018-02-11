@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { AtomicBlockUtils, Entity } from 'draft-js'
+import { AtomicBlockUtils } from 'draft-js'
 import { ToolBarBtn } from 'utils'
 import Iconfont from 'iconfont'
 
