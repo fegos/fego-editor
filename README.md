@@ -86,6 +86,64 @@ export default class EditorTest extends Component {
 
 默认的EditorState
 
+配置工具栏
+---
+通过传入toolBars的prop，用来配置工具栏
+
+toolBars是一个对象类型，默认值为
+```js
+{
+	options: ['BlockType', 'Color', 'FontFamily', 'FontSize', 'Image', 'Inline', 'Link', 'List', 'TextAlign', 'Video', 'History'],
+	BgColor: [],
+	BlockType: ['正文', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+	Color: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'pink'],
+	FontFamily: [{
+		name: 'SimHei', family: '"SimHei", "黑体"'
+	}, {
+		name: 'Yahei', family: '"Microsoft Yahei", "微软雅黑"'
+	}, {
+		name: 'KaiTi', family: '"KaiTi", "楷体"'
+	}, {
+		name: 'FangSong', family: '"FangSong", "仿宋"'
+	}],
+	FontSize: [16, 20, 30, 40, 50, 70, 100, 200],
+	History: ['undo', 'redo'],
+	Image: {},
+	Inline: ['bold', 'italic', 'underline'],
+	Link: {},
+	List: ['ul', 'ol', 'indent', 'outdent'],
+	TextAlign: ['left', 'center', 'right', 'justify'],
+	Video: {},
+	Remove: {}
+}
+```
+配置options来控制工具栏功能按钮显示，传入数组覆盖默认值
+
+示例
+```js
+	<Editor toolBars={{ options: [ 'BlockType', 'Color', 'FontSize' ] }} />
+```
+只会显示BlockType、Color、FontSize三种按钮
+
+目前支持自定义Color、FontFamily、FontSize，传入数组覆盖默认值
+
+示例
+```js
+	<Editor toolBars={{ Color: [ 'cyan', 'red', 'orange' ], FontSize: [ 10, 20, 30, 40], FontFamily: [{
+		name: 'Araial',
+		family: 'Arial, Helvetica, sans-serif'
+	}] }} />
+```
+
+配置上传图片
+---
+配置toolBars的Image属性，uploadUrl为图片上传到服务器的url，uploadCallback为添加图片后的回调函数，返回值必须是图片的地址，默认使用ajax异步上传图片
+```js
+{
+	uploadUrl: '',
+	uploadCallback: (uploadUrl, file) => {}
+}
+```
 
 鸣谢
 ---

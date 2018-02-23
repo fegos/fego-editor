@@ -102,7 +102,7 @@ export default class MyEditor extends Component {
 	render() {
 		const { editorState } = this.state;
 		let { toolBars = {} } = this.props;
-		toolBars = Object.assign({}, defaultToolBars, toolBars) 
+		toolBars = Object.assign({}, defaultToolBars, toolBars)
 		let className = 'FegoEditor-editor';
 		let contentState = editorState.getCurrentContent();
 		if (!contentState.hasText()) {
