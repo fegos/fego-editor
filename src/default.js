@@ -14,7 +14,10 @@ const defaultToolBars = {
 	}],
 	FontSize: [16, 20, 30, 40, 50, 70, 100, 200],
 	History: ['undo', 'redo'],
-	Image: {},
+	Image: {
+		uploadUrl: '',
+		uploadCallback: null
+	},
 	Inline: ['bold', 'italic', 'underline'],
 	Link: {},
 	List: ['ul', 'ol', 'indent', 'outdent'],

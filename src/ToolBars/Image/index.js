@@ -20,6 +20,7 @@ export default class Image extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
+		config: PropTypes.object,
 		uploadUrl: PropTypes.string,
 		uploadCallBack: PropTypes.func
 	}
@@ -51,9 +52,8 @@ export default class Image extends Component {
 		this.changeImgVisible()
 	}
 	handleImgAdd = () => {
-		let { uploadUrl, uploadCallBack } = this.props;
+		let { uploadUrl = '' , uploadCallBack = null } = this.props.config;
 		let { imgAddType } = this.state;
-		uploadUrl = uploadUrl || 'api/com/upload'
 		if (imgAddType === 'local' && uploadUrl) {
 			let callback = imgUrl => this.setState({ imgUrl }, this.confirmMedia);
 			uploadCallBack ? uploadCallBack(uploadUrl, this.refs.url, callback) :
