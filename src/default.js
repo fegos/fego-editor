@@ -28,5 +28,4 @@ const defaultToolBars = {
 
 export {
 	defaultToolBars,
-	defaultBlockRenderMap,
 }
