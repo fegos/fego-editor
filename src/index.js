@@ -11,6 +11,7 @@ import mediaBlockRenderer from './RenderFn'
 import { defaultToolBars } from './default'
 import { ModalManage, setCustomStyleMap } from 'utils'
 import './index.css'
+import 'draft-js/dist/Draft.css'
 
 const decorator = new CompositeDecorator([LinkDecorator]);
 

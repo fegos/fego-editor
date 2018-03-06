@@ -52,6 +52,7 @@
 	padding: 5px 0;
 	font-family: 'Helvetica', sans-serif;
 	font-size: 15px;
+	line-height: 1;
 	user-select: none;
 }
 .align-right {
