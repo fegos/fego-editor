@@ -186,6 +186,7 @@
 	z-index: 100;
 	width: 140px;
 	padding: 10px;
+	overflow: hidden;
 	background: #e9e9e9;
 	box-shadow: 0 0 1px 1px #d8d8d8;
 }

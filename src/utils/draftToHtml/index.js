@@ -29,6 +29,7 @@ const styleToHTML = (style) => {
 		fontFamily: 'fontFamily'
 	}, inlineType = InlineTypeMap[style];
 	let html = '', unit = '';
+	style = style.replace(/\s/g, '')
 	for (let key of Object.keys(cssMap)) {
 		let reg = new RegExp(`^${key}(.*)$`);
 		if (reg.test(style)) {

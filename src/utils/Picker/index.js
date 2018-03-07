@@ -7,7 +7,7 @@ export default class Picker extends Component {
 		onToggle(options[idx])
 	}
 	render() {
-		let { options, changeExpand, expanded, activeItem = 0, type = 'color' } = this.props;
+		let { options, changeExpand, expanded, activeItem = 0, type = 'color', style } = this.props;
 		return (
 			<div className='FegoEditor-picker'>
 				<div className='FegoEditor-pickerLabel' onMouseDown={changeExpand} >
@@ -20,7 +20,7 @@ export default class Picker extends Component {
 				{
 					expanded &&
 					<div className='FegoEditor-pickerContainer'>
-						<div className='FegoEditor-pickerContent'>
+						<div className='FegoEditor-pickerContent'  { ...{ style } } >
 							{
 								options.map((item, idx) => {
 									let active = idx === activeItem ? true : false;
