@@ -14,8 +14,12 @@
     "url": "https://github.com/fegos/fego-editer.git"
   },
   "keywords": [
+    "fego",
+    "react",
     "draftjs",
-    "editor"
+    "editor",
+    "rich-text-editor",
+    "wysiwyg"
   ],
   "author": "fx",
   "license": "MIT",
