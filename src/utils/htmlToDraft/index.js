@@ -18,6 +18,7 @@ const htmlToStyle = (nodeName, node, currentStyle) => {
 	if (nodeName === 'span') {
 		let { style: { color, backgroundColor, fontSize, fontFamily } } = node;
 		if (color) {
+			color = color.replace(/\s/g, '')
 			return currentStyle.add(`color${color}`)
 		} else if (backgroundColor) {
 			return currentStyle.add(`bgColor${backgroundColor}`)

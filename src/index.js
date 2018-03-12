@@ -8,9 +8,10 @@ import { handleNewLine } from 'draftjs-utils'
 import * as ToolBars from './ToolBars'
 import { LinkDecorator } from './Decorators'
 import mediaBlockRenderer from './RenderFn'
-import { defaultToolBars, defaultBlockRenderMap } from './default'
+import { defaultToolBars } from './default'
 import { ModalManage, setCustomStyleMap } from 'utils'
 import './index.css'
+import 'draft-js/dist/Draft.css'
 
 const decorator = new CompositeDecorator([LinkDecorator]);
 
@@ -132,7 +133,6 @@ export default class MyEditor extends Component {
 						onChange={this.onChange}
 						blockStyleFn={getBlockStyle}
 						blockRendererFn={this.blockRendererFn}
-						blockRenderMap={DefaultDraftBlockRenderMap.merge(defaultBlockRenderMap)}
 						customStyleMap={customStyleMap}
 						handleReturn={this.handleReturn}
 						handleKeyCommand={this.handleKeyCommand}
