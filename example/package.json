@@ -1,5 +1,6 @@
 {
 	"dependencies": {
+		"draft-js": "^0.10.4",
 		"react": "^15.6.2",
 		"react-dom": "^15.6.2"
 	}
