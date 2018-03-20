@@ -240,3 +240,6 @@
 .FegoEitor-wrapperRight {
 	right: 0;
 }
+label {
+	font-size: 12px;
+}
