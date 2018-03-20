@@ -10,6 +10,7 @@ import { LinkDecorator } from './Decorators'
 import mediaBlockRenderer from './RenderFn'
 import { defaultToolBars } from './default'
 import { ModalManage, setCustomStyleMap } from 'utils'
+import './reset.css'
 import './index.css'
 import 'draft-js/dist/Draft.css'
 
