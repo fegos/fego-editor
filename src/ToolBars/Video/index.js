@@ -44,7 +44,7 @@ export default class Video extends Component {
 		const { editorState, onChange } = this.props;
 		const { urlValue, urlType, width, height, controls, autoPlay } = this.state;
 		const contentState = editorState.getCurrentContent();
-		const entityKey = contentState.createEntity(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay });
+		const entityKey = contentState.createEntity(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay }).getLastCreatedEntityKey();
 		onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '))
 		this.changeVideoVisible()
 	}
