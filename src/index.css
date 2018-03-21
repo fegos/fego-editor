@@ -2,14 +2,13 @@
 	background: #fff;
 	border: 1px solid #ddd;
 	font-size: 15px;
-	padding: 15px;
 }
 .FegoEditor-editor {
+	min-height: 200px;
+	padding: 0 10px;
 	border-top: 1px solid #ddd;
 	cursor: text;
 	font-size: 16px;
-	margin-top: 10px;
-	min-height: 200px;
 }
 .FegoEditor-editor .public-DraftEditorPlaceholder-root,
 .FegoEditor-editor .public-DraftEditor-content {
@@ -45,6 +44,7 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
+	padding: 0 5px;
 }
 .FegoEditor-toolbars {
 	display: flex;
@@ -169,10 +169,10 @@
 	text-align: center;
 }
 .FegoEditor-selectItem:hover {
-	background: #adc6ff;
+	background: #ddd;
 }
 .FegoEditor-activeSelectItem {
-	background: #d6e4ff;
+	background: #eee;
 }
 .FegoEditor-pickerContent {
 	display: flex;
