@@ -2,6 +2,9 @@ Fego-editor
 ---
 基于DraftJS开发的富文本编辑器
 
+
+![demo](./editor.gif)
+
 安装
 ---
 ```
@@ -12,59 +15,46 @@ npm install https://github.com/fegos/fego-editer --save
 使用示例
 ---
 ```js
-import React, { Component } from 'react'
-import { EditorState, convertToRaw } from 'draft-js'
-import Editor, { draftToHtml, htmlToDraft } from 'fego-editor'
+import React, { Component } from 'react';
+import { EditorState } from 'draft-js';
+import FegoEditor, { draftToHtml, htmlToDraft } from 'fego-editor';
+
 export default class EditorTest extends Component {
-	cache = {
-		html: ''
-	}
-	constructor(props) {
-		super(props)
-		let str = `<h1><span style="font-family:FangSong;">a</span></h1><img src="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png" 
-			width="auto" height="auto" style="float:right;"/><ol><li style="text-align:center;"><span style="color:blue;">asdasd</span>
-			</li><ol><li><span style="color:blue;"><span style="font-size:20px;">asda</span></span></li></ol></ol>
-			<p style="text-align: center;"><span style="font-size:30px;"><em><u><strong>asd</strong></u></em></span></p>
-			<video src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" width="auto" height="auto">a</video><a href="www.163.com" target="_blank">asdasd</a><p></p>`;
-		let contentState = htmlToDraft(str)
-		this.state = {
-			editorState: EditorState.createWithContent(contentState),
-		}
-		// this.state = {
-		// 	editorState: EditorState.createEmpty()
-		// }
-		this.toolBars = {
-			Color: ['white', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'pink']
-		}
-	}
-	onChange = (editorState) => {
-		this.setState({ editorState })
-	}
-	handleClick = () => {
-		let contentState = this.state.editorState.getCurrentContent();
-		let html = convertToRaw(contentState);
-		console.log(html)
-		this.cache.html = draftToHtml(contentState)
-		console.log(this.cache.html)
-	}
-	handleClick2 = () => {
-		let content = htmlToDraft(this.cache.html)
-		console.log(convertToRaw(content))
-	}
-	handleHTMLChange = (html) => {
-		console.log(html)
-	}
-	render() {
-		let { editorState } = this.state;
-		return (
-			<div>
-				<Editor editorState={editorState} onChange={this.onChange} getHtml={this.getHtml} toolBars={this.toolBars} />
-				<br />
-				<button onClick={this.handleClick}>draft转html</button>&nbsp;&nbsp;&nbsp;&nbsp;
-				<button onClick={this.handleClick2}>html转draft</button>
-			</div>
-		)
-	}
+  constructor(props) {
+      super(props);
+      const str = `<h1><span style="font-family:FangSong;">Hello World</span></h1>
+          <video src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" width="200px" height="auto"></video>`;
+      const contentState = htmlToDraft(str);
+      this.state = {
+          editorState: EditorState.createWithContent(contentState),
+          content: '',
+      }
+      this.toolBars = {
+          Image: {
+              uploadUrl: "",
+              uploadCallback: () => {}
+          }
+      }
+  }
+  onChange = (editorState) => {
+      this.setState({
+          editorState,
+          content: draftToHtml(editorContent),
+      })
+  }
+  render() {
+      let { editorState, content } = this.state;
+      return (
+          <div style={{ width: '70%', margin: '0 auto', padding: '15px' }}>
+              <Editor editorState={editorState} onChange={this.onChange} toolBars= {this.toolBars} />
+              <br/>
+              <p>生成的HTML</p>
+              <div style={{ width: '100%', height: '200px', border: '1px solid #ccc' }} >
+                  {content}
+              </div>
+          </div>
+      )
+  }
 }
 ```
 
@@ -93,40 +83,37 @@ export default class EditorTest extends Component {
 toolBars是一个对象类型，默认值为
 ```js
 {
-	options: ['BlockType', 'Color', 'FontFamily', 'FontSize', 'Image', 'Inline', 'Link', 'List', 'TextAlign', 'Video', 'History'],
-	BgColor: [],
-	BlockType: ['正文', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
-	Color: ['rgb(97,189,109)', 'rgb(26,188,156)', 'rgb(84,172,210)', 'rgb(44,130,201)',
-		'rgb(147,101,184)', 'rgb(71,85,119)', 'rgb(204,204,204)', 'rgb(65,168,95)', 'rgb(0,168,133)',
-		'rgb(61,142,185)', 'rgb(41,105,176)', 'rgb(85,57,130)', 'rgb(40,50,78)', 'rgb(0,0,0)',
-		'rgb(247,218,100)', 'rgb(251,160,38)', 'rgb(235,107,86)', 'rgb(226,80,65)', 'rgb(163,143,132)',
-		'rgb(239,239,239)', 'rgb(255,255,255)', 'rgb(250,197,28)', 'rgb(243,121,52)', 'rgb(184,49,47)',
-		'rgb(209,72,65)', 'rgb(124,112,107)', 'rgb(209,213,216)'],
-	FontFamily: [{
-		name: 'SimHei', family: '"SimHei", "黑体"'
-	}, {
-		name: 'Yahei', family: '"Microsoft Yahei", "微软雅黑"'
-	}, {
-		name: 'KaiTi', family: '"KaiTi", "楷体"'
-	}, {
-		name: 'FangSong', family: '"FangSong", "仿宋"'
-	}],
-	FontSize: [16, 20, 30, 40, 50, 70, 100, 200],
-	History: ['undo', 'redo'],
-	Image: {},
-	Inline: ['bold', 'italic', 'underline'],
-	Link: {},
-	List: ['ul', 'ol', 'indent', 'outdent'],
-	TextAlign: ['left', 'center', 'right', 'justify'],
-	Video: {},
-	Remove: {}
+  options: ['BlockType', 'Color', 'FontFamily', 'FontSize', 'Image', 'Inline', 'Link', 'List',
+      'TextAlign', 'Video', 'History'],
+  BlockType: ['正文', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+  Color: ['rgb(97,189,109)', 'rgb(26,188,156)', 'rgb(84,172,210)', 'rgb(44,130,201)',
+      'rgb(147,101,184)', 'rgb(71,85,119)', 'rgb(204,204,204)', 'rgb(65,168,95)', 'rgb(0,168,133)',
+      'rgb(61,142,185)', 'rgb(41,105,176)', 'rgb(85,57,130)', 'rgb(40,50,78)', 'rgb(0,0,0)',
+      'rgb(247,218,100)', 'rgb(251,160,38)', 'rgb(235,107,86)', 'rgb(226,80,65)', 'rgb(163,143,132)',
+      'rgb(239,239,239)', 'rgb(255,255,255)', 'rgb(250,197,28)', 'rgb(243,121,52)', 'rgb(184,49,47)',
+      'rgb(209,72,65)', 'rgb(124,112,107)', 'rgb(209,213,216)'],
+  FontFamily: [{
+      name: 'SimHei', family: '"SimHei", "黑体"'
+  }, {
+      name: 'Yahei', family: '"Microsoft Yahei", "微软雅黑"'
+  }, {
+      name: 'KaiTi', family: '"KaiTi", "楷体"'
+  }, {
+      name: 'FangSong', family: '"FangSong", "仿宋"'
+  }],
+  FontSize: [16, 20, 30, 40, 50, 70, 100, 200],
+  History: ['undo', 'redo'],
+  Image: {},
+  Inline: ['bold', 'italic', 'underline'],
+  List: ['ul', 'ol', 'indent', 'outdent'],
+  TextAlign: ['left', 'center', 'right', 'justify'],
 }
 ```
 配置options来控制工具栏功能按钮显示，传入数组覆盖默认值
 
 示例
 ```js
-	<Editor toolBars={{ options: [ 'BlockType', 'Color', 'FontSize' ] }} />
+<Editor toolBars={{ options: [ 'BlockType', 'Color', 'FontSize' ] }} />
 ```
 只会显示BlockType、Color、FontSize三种按钮
 
@@ -134,10 +121,10 @@ toolBars是一个对象类型，默认值为
 
 示例
 ```js
-	<Editor toolBars={{ Color: [ 'cyan', 'red', 'orange' ], FontSize: [ 10, 20, 30, 40], FontFamily: [{
-		name: 'Araial',
-		family: 'Arial, Helvetica, sans-serif'
-	}] }} />
+<Editor toolBars={{ Color: [ 'cyan', 'red', 'orange' ], FontSize: [ 10, 20, 30, 40], FontFamily: [{
+  name: 'Araial',
+  family: 'Arial, Helvetica, sans-serif'
+}] }} />
 ```
 
 配置上传图片
@@ -145,8 +132,8 @@ toolBars是一个对象类型，默认值为
 配置toolBars的Image属性，uploadUrl为图片上传到服务器的url，uploadCallback为添加图片后的回调函数，返回值必须是图片的地址，默认使用ajax异步上传图片
 ```js
 {
-	uploadUrl: '',
-	uploadCallback: (uploadUrl, file) => {}
+  uploadUrl: '',
+  uploadCallback: (uploadUrl, file) => {}
 }
 ```
 
