@@ -141,4 +141,4 @@ toolBars是一个对象类型，默认值为
 ---
 - 感谢Jyoti Puri开发的[draftjs-utils](https://github.com/jpuri/draftjs-utils)提供的帮助和[react-draft-wysiwyg](https://github.com/jpuri/react-draft-wysiwyg)提供的参考，Thanks！
 - 感谢超能刚哥开发的[braft-editor](https://github.com/margox/braft-editor)提供的参考，Thanks！
-- 感谢HubSpot开发的[draft-convert](https://github.com/HubSpot/draft-convert)，Thanks！
+- 感谢HubSpot开发的[draft-convert](https://github.com/HubSpot/draft-convert)提供的帮助，Thanks！
