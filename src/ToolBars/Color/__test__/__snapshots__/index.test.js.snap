@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Color 快照 1`] = `
+<div
+  class="FegoEditor-toolbars"
+  title="颜色"
+>
+  <div
+    class="FegoEditor-picker"
+  >
+    <div
+      class="FegoEditor-pickerLabel"
+    >
+      <svg
+        aria-hidden="true"
+        class="icon"
+        style="color:#6a6f7b;"
+        viewBox="0 0 1024 1024"
+      >
+        <path
+          d="M470.975 137l-214.462 562.5h102l44.513-131.25h217.949l48.038 131.25h102.002l-214.501-562.5h-85.5zM512 256.55l78.525 233.175h-160.538l82.013-233.212zM212 774.5v112.5h599.999v-112.5h-599.999z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Color 快照 1`] = `
+<div
+  class="FegoEditor-toolbars"
+  title="颜色"
+>
+  <div
+    class="FegoEditor-picker"
+  >
+    <div
+      class="FegoEditor-pickerLabel"
+    >
+      <svg
+        aria-hidden="true"
+        class="icon"
+        style="color:#6a6f7b;"
+        viewBox="0 0 1024 1024"
+      >
+        <path
+          d="M470.975 137l-214.462 562.5h102l44.513-131.25h217.949l48.038 131.25h102.002l-214.501-562.5h-85.5zM512 256.55l78.525 233.175h-160.538l82.013-233.212zM212 774.5v112.5h599.999v-112.5h-599.999z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

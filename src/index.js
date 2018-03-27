@@ -8,8 +8,9 @@ import { handleNewLine } from 'draftjs-utils'
 import * as ToolBars from './ToolBars'
 import { LinkDecorator } from './Decorators'
 import mediaBlockRenderer from './RenderFn'
-import { defaultToolBars } from './default'
+import defaultToolBars from './defaultToolBars'
 import { ModalManage, setCustomStyleMap } from 'utils'
+import './reset.css'
 import './index.css'
 import 'draft-js/dist/Draft.css'
 
@@ -102,7 +103,7 @@ export default class MyEditor extends Component {
 	}
 	render() {
 		const { editorState } = this.state;
-		let { toolBars = {} } = this.props;
+		let { toolBars = {}, style } = this.props;
 		toolBars = Object.assign({}, defaultToolBars, toolBars)
 		let className = 'FegoEditor-editor';
 		let contentState = editorState.getCurrentContent();
@@ -116,7 +117,7 @@ export default class MyEditor extends Component {
 			bgColor: toolBars.BgColor
 		})
 		return (
-			<div className="FegoEditor-root" onMouseDown={this.modalManage.changeModals} id='fegoEditor' ref={editor => this.editor = editor} >
+			<div className="FegoEditor-root" onMouseDown={this.modalManage.changeModals} style={style} id='fegoEditor' ref={editor => this.editor = editor} >
 				<div className='FegoEditor-toolbar' >
 					{
 						toolBars.options.map((item, idx) => {

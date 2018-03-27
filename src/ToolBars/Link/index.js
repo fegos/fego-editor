@@ -19,6 +19,7 @@ export default class Link extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
+		modalManage: PropTypes.object.isRequired
 	}
 	constructor(props) {
 		super(props)
@@ -164,11 +165,11 @@ export default class Link extends Component {
 		LINK_TYPES[1].className = this.getCurrentValue().link ? '' : 'FegoEditor-diabledBtn'
 		if (linkVisible) {
 			urlInput = (
-				<div className='modal' onMouseDown={e => e.stopPropagation()} >
-					<label>超链接：</label>
+				<div className='modal' style={{ lineHeight: '20px' }} onMouseDown={e => e.stopPropagation()} >
+					<label>链接文字：</label>
 					<input ref='title' type="text" value={linkTitle} style={{ width: '100%' }} onChange={this.handleChange.bind(this, 'linkTitle')} />
 					<br />
-					<label>超链接地址：</label>
+					<label>链接地址：</label>
 					<input ref='url' type="text" value={linkTarget} style={{ width: '100%' }} onChange={this.handleChange.bind(this, 'linkTarget')}
 						onKeyDown={this.onlinkInputKeyDown} />
 					<br />

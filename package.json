@@ -7,7 +7,7 @@
     "init": "npm install --no-options -s --registry=https://registry.npm.taobao.org",
     "build": "npm run clean && webpack --progress --profile --colors --config webpack.config.js",
     "clean": "rimraf -rf ./dist",
-    "parcel": "parcel ./src/index.js"
+    "test": "jest --config jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -40,12 +40,17 @@
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.7",
     "draft-js": "^0.10.4",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "enzyme-to-json": "^3.3.1",
     "extract-text-webpack-plugin": "^2.1.2",
+    "jest": "^22.4.2",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "postcss-loader": "^2.0.9",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
+    "react-test-renderer": "^16.2.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0",

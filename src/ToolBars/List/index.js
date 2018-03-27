@@ -16,6 +16,7 @@ export default class List extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
+		config: PropTypes.array.isRequired
 	}
 	onToggle = blockType => {
 		let { editorState, onChange } = this.props;

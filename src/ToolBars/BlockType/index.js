@@ -18,7 +18,8 @@ export default class BlockType extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
-		toolBar: PropTypes.array
+		config: PropTypes.array.isRequired,
+		modalManage: PropTypes.object.isRequired
 	}
 	constructor(props) {
 		super(props)
@@ -43,15 +44,16 @@ export default class BlockType extends Component {
 	onExpand = () => {
 		this.expanded = !this.state.expanded
 	}
-	onToggle = blockType => {
+	onToggle = wrapperType => {
 		let { editorState, onChange } = this.props;
-		onChange(RichUtils.toggleBlockType(editorState, blockType))
+		onChange(RichUtils.toggleBlockType(editorState, wrapperType))
 	}
 	render() {
-		const { editorState, config, modalManage } = this.props;
-		const { expanded } = this.state;
+		const { editorState, config } = this.props;
+		const { expanded, } = this.state;
 		const selection = editorState.getSelection();
-		const currentBlockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+		const currentBlockType = editorState.getCurrentContent().
+			getBlockForKey(selection.getStartKey()).getType();
 		const options = BLOCK_TYPES.filter(item => config.includes(item.label));
 		let activeItem = 0;
 		options.find((item, idx) => {

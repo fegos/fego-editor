@@ -44,7 +44,7 @@ export default class Video extends Component {
 		const { editorState, onChange } = this.props;
 		const { urlValue, urlType, width, height, controls, autoPlay } = this.state;
 		const contentState = editorState.getCurrentContent();
-		const entityKey = contentState.createEntity(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay });
+		const entityKey = contentState.createEntity(urlType, 'IMMUTABLE', { src: urlValue, width, height, controls, autoPlay }).getLastCreatedEntityKey();
 		onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '))
 		this.changeVideoVisible()
 	}
@@ -76,20 +76,20 @@ export default class Video extends Component {
 					<div className='uploadBox' >
 						<input type='text' value={urlValue} onChange={this.handleChange.bind(this, 'videoUrl')} placeholder='请输入视频url' className='uploadArea input' />
 						<div className='videoStyleDiv' >
-							<label>宽度：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+							<label>宽度：&nbsp;&nbsp;</label>
 							<input type="text" value={width} onChange={this.handleChange.bind(this, 'width')} className='videoStyleInput' />
 						</div>
 						<div className='videoStyleDiv' >
-							<label>高度：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+							<label>高度：&nbsp;&nbsp;</label>
 							<input type="text" value={height} onChange={this.handleChange.bind(this, 'height')} className='videoStyleInput' />
 						</div>
 						<div className='videoStyleDiv' >
-							<label>显示控件：</label>
-							<input type="checkbox" checked={controls} onChange={this.handleChange.bind(this, 'controls')} className='videoStyleInput' />
+							<label>显示控件：&nbsp;&nbsp;</label>
+							<input type="checkbox" checked={controls} onChange={this.handleChange.bind(this, 'controls')}  />
 						</div>
 						<div className='videoStyleDiv' >
-							<label>自动播放：</label>
-							<input type="checkbox" checked={autoPlay} onChange={this.handleChange.bind(this, 'autoPlay')} className='videoStyleInput' />
+							<label>自动播放：&nbsp;&nbsp;</label>
+							<input type="checkbox" checked={autoPlay} onChange={this.handleChange.bind(this, 'autoPlay')} />
 						</div>
 					</div>
 					<div className='center' >

@@ -13,6 +13,7 @@ export default class History extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
+		config: PropTypes.array.isRequired,
 	}
 	onToggle = type => {
 		let { editorState, onChange } = this.props;
