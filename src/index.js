@@ -103,7 +103,7 @@ export default class MyEditor extends Component {
 	}
 	render() {
 		const { editorState } = this.state;
-		let { toolBars = {} } = this.props;
+		let { toolBars = {}, style } = this.props;
 		toolBars = Object.assign({}, defaultToolBars, toolBars)
 		let className = 'FegoEditor-editor';
 		let contentState = editorState.getCurrentContent();
@@ -117,7 +117,7 @@ export default class MyEditor extends Component {
 			bgColor: toolBars.BgColor
 		})
 		return (
-			<div className="FegoEditor-root" onMouseDown={this.modalManage.changeModals} id='fegoEditor' ref={editor => this.editor = editor} >
+			<div className="FegoEditor-root" onMouseDown={this.modalManage.changeModals} style={style} id='fegoEditor' ref={editor => this.editor = editor} >
 				<div className='FegoEditor-toolbar' >
 					{
 						toolBars.options.map((item, idx) => {
