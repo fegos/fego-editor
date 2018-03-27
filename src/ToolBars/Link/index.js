@@ -19,6 +19,7 @@ export default class Link extends Component {
 	static propTypes = {
 		editorState: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired,
+		modalManage: PropTypes.object.isRequired
 	}
 	constructor(props) {
 		super(props)
