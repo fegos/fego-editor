@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlockType 快照 1`] = `
+<div
+  class="FegoEditor-toolbars"
+  title="样式"
+>
+  <div
+    class="FegoEditor-select"
+  >
+    <div
+      class="FegoEditor-selectLabel"
+    >
+      <div>
+        正文
+      </div>
+      <svg
+        aria-hidden="true"
+        class="icon"
+        style="vertical-align:top;"
+        viewBox="0 0 1024 1024"
+      >
+        <path
+          d="M494 638l256.5-252H242z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
