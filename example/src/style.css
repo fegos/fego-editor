@@ -11,7 +11,7 @@
 .title {
 	margin: 20px 0;
 	font-size: 50px;
-	color: #5a74dc;
+	color: #4666e0;
 }
 .desc {
 	margin: 20px 0;
@@ -24,7 +24,7 @@
 	flex: 1;
 	width: 70%;
 	margin: 0 auto;
-	padding: 20px;
+	padding: 15px;
 }
 .content {
 	width: 100%;
@@ -37,5 +37,5 @@ footer {
 	text-align: center;
 }
 p {
-  line-height: 1.5;
+	line-height: 3;
 }
