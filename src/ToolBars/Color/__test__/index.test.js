@@ -3,7 +3,7 @@ import { mount, render } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import Color from '..'
-import defaultToolBars from '../../../default'
+import defaultToolBars from '../../../defaultToolBars'
 import ModalManage from '../../../utils/ModalManage'
 
 describe('Color', () => {
@@ -23,12 +23,12 @@ describe('Color', () => {
 	it('config应该为默认值', () => {
 		expect(wrapper.prop('config')).toEqual(defaultToolBars.Color)
 	})
-	it('在expanded为true时应该有9个icon元素', () => {
+	it('在expanded为true时应该有28个icon元素', () => {
 		expect(wrapper.find('.icon').length).toBe(1)
 		wrapper.setState({
 			expanded: true
 		})
-		expect(wrapper.find('.icon').length).toBe(9)
+		expect(wrapper.find('.icon').length).toBe(28)
 	})
 	it('快照', () => {
 		const rendered = render(

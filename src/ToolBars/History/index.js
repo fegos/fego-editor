@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { EditorState } from 'draft-js'
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 const HISTORY_TYPES = [
 	{ label: 'undo', style: 'undo', icon: 'iconUndo', title: '撤销' },

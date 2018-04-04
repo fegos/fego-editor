@@ -3,7 +3,7 @@ import { mount, render } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import Inline from '..'
-import defaultToolBars from '../../../default'
+import defaultToolBars from '../../../defaultToolBars'
 import ModalManage from '../../../utils/ModalManage'
 
 describe('Inline', () => {

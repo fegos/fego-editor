@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils, EditorState } from 'draft-js'
 import { changeDepth } from 'draftjs-utils'
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 const LIST_STYLES = [
 	{ label: 'ul', style: 'unordered-list-item', icon: 'iconUl', title: '无序列表' },

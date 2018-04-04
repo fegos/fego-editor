@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { EditorState, RichUtils, Modifier } from 'draft-js'
-import { ToolBarBtn, Func, Picker } from 'utils'
+import { ToolBarBtn, Func, Picker } from '../../utils'
 let { toggleInlineStyle } = Func;
 
 export default class Color extends Component {

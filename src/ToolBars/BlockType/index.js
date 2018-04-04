@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils } from 'draft-js'
-import { ToolBarBtn, Select } from 'utils'
+import { ToolBarBtn, Select } from '../../utils'
 import { getSelectedBlocksList } from 'draftjs-utils'
 
 const BLOCK_TYPES = [

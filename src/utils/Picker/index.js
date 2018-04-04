@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Iconfont from 'iconfont'
+import Iconfont from '../../iconfont'
 
 export default class Picker extends Component {
 	onToggle = idx => {
