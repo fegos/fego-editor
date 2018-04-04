@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Editor, EditorState, RichUtils, Modifier } from 'draft-js'
 import { getSelectionEntity, getSelectionText } from 'draftjs-utils'	// getEntityRange, 
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 const LINK_TYPES = [
 	{ label: 'link', style: 'link', icon: 'iconLink', title: '添加链接' },

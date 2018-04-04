@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Modifier, EditorState } from 'draft-js'
 import { getSelectedBlocksMetadata } from 'draftjs-utils'
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 const TEXTALIGN_TYPES = [
 	{ label: 'left', style: 'left', icon: 'iconLeftAlign', title: '左对齐' },

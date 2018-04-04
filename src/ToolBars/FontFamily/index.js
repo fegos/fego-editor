@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils } from 'draft-js'
-import { ToolBarBtn, Select, Func } from 'utils'
+import { ToolBarBtn, Select, Func } from '../../utils'
 let { toggleInlineStyle } = Func;
 
 let FONTFAMILY_STYLES = [

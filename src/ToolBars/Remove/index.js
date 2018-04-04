@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Modifier, EditorState } from 'draft-js'
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 export default class TextAlign extends Component {
 	static propTypes = {

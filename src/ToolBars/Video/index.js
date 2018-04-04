@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { AtomicBlockUtils } from 'draft-js'
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 const VIDEO_TYPES = [
 	{ label: 'video', style: 'video', icon: 'iconVideo', title: '插入视频' }

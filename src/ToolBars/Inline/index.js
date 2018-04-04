@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { RichUtils } from 'draft-js'
-import { ToolBarBtn } from 'utils'
-import Iconfont from 'iconfont'
+import { ToolBarBtn } from '../../utils'
+import Iconfont from '../../iconfont'
 
 const INLINE_TYPES = [
 	{ label: 'bold', style: 'BOLD', icon: 'iconBold', title: '加粗' },
