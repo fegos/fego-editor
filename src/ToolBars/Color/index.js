@@ -67,7 +67,7 @@ export default class Color extends Component {
 							</svg>
 						</ToolBarBtn>
 					) : 
-					<Picker {...{ expanded, activeItem }} options={config} onToggle={this.onToggle} changeExpand={this.onExpand} style={{ maxHeight: '120px', width: '148px', overflow: 'auto' }} />
+					<Picker {...{ expanded, activeItem }} options={config} onToggle={this.onToggle} changeExpand={this.onExpand} style={{ maxHeight: '120px', marginRight: navigator.platform.indexOf("Win") > -1 ? '-28px' : 0, overflow: 'auto' }} />
 				}
 			</div>
 		)
