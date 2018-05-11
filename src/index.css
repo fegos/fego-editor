@@ -3,12 +3,15 @@
 	border: 1px solid #ddd;
 	font-size: 15px;
 }
+.FegoEditor-root-readonly {
+	background-color: #f7f7f7;
+  color: rgba(0, 0, 0, 0.25);
+}
 .FegoEditor-editor {
 	min-height: 200px;
 	padding: 0 10px;
-	border-top: 1px solid #ddd;
 	cursor: text;
-	font-size: 16px;
+	font-size: inherit;
 }
 .FegoEditor-editor .public-DraftEditorPlaceholder-root,
 .FegoEditor-editor .public-DraftEditor-content {
@@ -44,7 +47,9 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-  padding: 0 5px;
+	font-size: inherit;
+	padding: 0 5px;
+	border-bottom: 1px solid #ddd;
   background: #f9f9f9;
 }
 .FegoEditor-toolbars {
@@ -52,7 +57,7 @@
 	position: relative;
 	padding: 5px 0;
 	font-family: 'Helvetica', sans-serif;
-	font-size: 15px;
+	font-size: inherit;
 	line-height: 1;
 	user-select: none;
 }
@@ -117,6 +122,7 @@
 	margin-right: 10px;
 	color: #888;
 	cursor: pointer;
+	font-size: 12px;
 	box-sizing: border-box;
 	line-height: 1;
 }

@@ -67,6 +67,7 @@ export default class MyEditor extends Component {
 	}
 	onChange = (editorState, callback) => {
 		if (!this.props.hasOwnProperty('editorState')) {
+			console.log('editorState', editorState)
 			this.setState({
 				editorState
 			}, this.aftChange(editorState))
@@ -103,7 +104,7 @@ export default class MyEditor extends Component {
 	}
 	render() {
 		const { editorState } = this.state;
-		let { toolBars = {}, style } = this.props;
+		let { toolBars = {}, style, readOnly = false, ...otherProps } = this.props;
 		toolBars = Object.assign({}, defaultToolBars, toolBars)
 		let className = 'FegoEditor-editor';
 		let contentState = editorState.getCurrentContent();
@@ -117,15 +118,18 @@ export default class MyEditor extends Component {
 			bgColor: toolBars.BgColor
 		})
 		return (
-			<div className="FegoEditor-root" onMouseDown={this.modalManage.changeModals} style={style} id='fegoEditor' ref={editor => this.editor = editor} >
-				<div className='FegoEditor-toolbar' >
-					{
-						toolBars.options.map((item, idx) => {
-							let Control = ToolBars[item], config = toolBars[item];
-							return <Control key={idx} editorState={editorState} onChange={this.onChange} config={config} modalManage={this.modalManage} />
-						})
-					}
-				</div>
+			<div className={`FegoEditor-root${readOnly ? ' FegoEditor-root-readonly' : ''}`} onMouseDown={this.modalManage.changeModals} style={style} id='fegoEditor' ref={editor => this.editor = editor} >
+				{
+					!readOnly ?
+						<div className='FegoEditor-toolbar' >
+							{
+								toolBars.options.map((item, idx) => {
+									let Control = ToolBars[item], config = toolBars[item];
+									return <Control key={idx} editorState={editorState} onChange={this.onChange} config={config} modalManage={this.modalManage} />
+								})
+							}
+						</div> : null
+				}
 				<div className={className} onClick={this.focus}>
 					<Editor
 						ref={ele => this.editor = ele}
@@ -143,6 +147,8 @@ export default class MyEditor extends Component {
 						onTab={this.onTab}
 						spellCheck={true}
 						onPaste={(value) => (console.log('paste', value))}
+						readOnly={readOnly}
+						{...otherProps}
 					/>
 				</div>
 			</div>
