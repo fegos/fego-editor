@@ -13,6 +13,7 @@ import { ModalManage, setCustomStyleMap } from 'utils'
 import './reset.css'
 import './index.css'
 import 'draft-js/dist/Draft.css'
+import { draftToHtml } from 'utils'
 
 const decorator = new CompositeDecorator([LinkDecorator]);
 
@@ -67,7 +68,6 @@ export default class MyEditor extends Component {
 	}
 	onChange = (editorState, callback) => {
 		if (!this.props.hasOwnProperty('editorState')) {
-			console.log('editorState', editorState)
 			this.setState({
 				editorState
 			}, this.aftChange(editorState))
@@ -76,7 +76,7 @@ export default class MyEditor extends Component {
 		}
 	}
 	aftChange = editorState => {
-		let { onChange, getHtml } = this.props;
+		let { onChange } = this.props;
 		typeof onChange === 'function' && onChange(editorState)
 	}
 	// 处理回车键

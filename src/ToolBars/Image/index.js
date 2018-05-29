@@ -51,22 +51,22 @@ export default class Image extends Component {
 		this.changeImgVisible()
 	}
 	handleImgAdd = () => {
-		let { uploadUrl = '', uploadCallBack = null } = this.props.config;
+		let { uploadUrl = '', uploadCallback = null } = this.props.config;
 		let { imgAddType } = this.state;
 		if (imgAddType === 'local' && uploadUrl) {
 			let callback = imgUrl => this.setState({ imgUrl }, this.confirmMedia);
-			uploadCallBack ? uploadCallBack(uploadUrl, this.refs.url, callback) :
-				this.uploadCallBack(uploadUrl, this.refs.url, callback)
+			uploadCallback ? uploadCallback(uploadUrl, this.refs.url.files[0]).then(callback).catch(this.changeImgVisible) :
+				this.uploadCallback(uploadUrl, this.refs.url.files[0], callback)
 		} else {
 			this.confirmMedia()
 		}
-	}
-	uploadCallBack = (url, fileName, callback) => {
+  }
+	uploadCallback = (url, file, callback) => {
 		const xhr = new XMLHttpRequest(), data = new FormData();
 		xhr.open('POST', url)
-		data.append('upload', fileName.file)
+		data.append('upload', file)
 		xhr.addEventListener('load', () => {
-			console.log('上传成功', 2)
+			console.log('上传成功')
 			const response = JSON.parse(xhr.responseText);
 			let { imgUrl } = response.data
 			callback(imgUrl)
